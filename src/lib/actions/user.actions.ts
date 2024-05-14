@@ -1,10 +1,10 @@
 "use server"
 
-import { on } from "events";
+
 import User from "../models/user.model"
 import { connectToDB } from "../mongoose"
 import { revalidatePath } from "next/cache";
-import { string } from "zod";
+
 
 interface Params {
     userId: string;
@@ -58,7 +58,7 @@ export async function fetchUser(userId: string) {
     //   path:'communities',
     //   model: Community
     // })
-  } catch (error) {
+  } catch (error: any) {
    throw new Error(`Error fetching user: ${error.message}`); 
   }
 }
