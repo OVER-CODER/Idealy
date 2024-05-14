@@ -15,11 +15,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { userSchema } from '@/lib/validations/user';
+import { userValidation } from '@/lib/validations/user';
 import Image from 'next/image';
 import { Textarea } from '../ui/textarea';
 import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
+import { updateUser } from '@/lib/actions/user.actions';
+
+import { usePathname, useRouter } from 'next/navigation';
 
 interface Props{
     user: {
@@ -38,9 +41,11 @@ interface Props{
 const AccountProfile = ({user, btnTitle}: Props) =>{
     const [files, setfiles] = useState<File[]>([])
     const { startUpload } = useUploadThing("media");
+    const router = useRouter();
+    const pathname = usePathname();
 
     const form = useForm({
-        resolver: zodResolver(userSchema),
+        resolver: zodResolver(userValidation),
         defaultValues: {
             profile_photo: user?.image || '',
             name: user?.name || '',
@@ -68,8 +73,8 @@ const AccountProfile = ({user, btnTitle}: Props) =>{
         }
         
     }    
-
-    const onSubmit = async (values: z.infer<typeof userSchema>) => {
+    
+    const onSubmit = async (values: z.infer<typeof userValidation>) => {
         const blob = values.profile_photo;
 
         const hasImageChanged = isBase64Image(blob);
@@ -79,6 +84,22 @@ const AccountProfile = ({user, btnTitle}: Props) =>{
             // if(imgRes && imgRes[0].fileUrl){
             //     values.profile_photo = imgRes[0].fileUrl;
             // }
+
+
+        }
+        await updateUser({
+            username: values.username,
+            name: values.name,
+            bio: values.bio,
+            image: values.profile_photo,
+            userId: user.id,
+            path: pathname
+        });
+
+        if(pathname === '/profile/edit'){
+            router.back();
+        }else{
+            router.push('/');
         }
       }
 
@@ -121,6 +142,7 @@ const AccountProfile = ({user, btnTitle}: Props) =>{
                                 onChange={(e) => handleimage(e, field.onChange)}
                             />
                         </FormControl>
+                        <FormMessage />
                         </FormItem>
                     )}
                     />
@@ -139,6 +161,7 @@ const AccountProfile = ({user, btnTitle}: Props) =>{
                                {...field}
                             />
                         </FormControl>
+                        <FormMessage />
                         </FormItem>
                     )}
                     />
@@ -157,6 +180,7 @@ const AccountProfile = ({user, btnTitle}: Props) =>{
                                {...field}
                             />
                         </FormControl>
+                        <FormMessage />
                         </FormItem>
                     )}
                     />
@@ -175,6 +199,7 @@ const AccountProfile = ({user, btnTitle}: Props) =>{
                                {...field}
                             />
                         </FormControl>
+                        <FormMessage />
                         </FormItem>
                     )}
                     />
