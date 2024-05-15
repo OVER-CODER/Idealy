@@ -72,3 +72,72 @@ try {
     
 } 
 }
+
+export async function fetchIdeaById(id: string) {
+    connectToDB();
+
+    try {
+
+
+        const idea = await Idea.findById(id)
+        .populate({
+            path: 'author',
+            model: User,
+            select: "_id id name image"
+        })
+        .populate({
+            path: 'children',
+            populate: [
+                {
+                    path: 'author',
+                    model: User,
+                    select: "_id id name parentId image"
+                },
+                {
+                    path: 'children',
+                    model: Idea,
+                    populate: {
+                        path: 'author',
+                        model: User,
+                        select: "_id id name parentId image"
+                    }
+                }
+            ]
+        }).exec();
+        return idea;
+    } catch (error: any) {
+        throw new Error(`Error fetching idea: ${error.message}`);
+    }
+}
+
+
+export async function addCommentToIdea(
+    ideaId: string,
+    commentText: string,
+    userId: string,
+    path: string
+) {
+    connectToDB();
+    try {
+        const orignalIdea = await Idea.findById(ideaId);
+        if (!orignalIdea) {
+            throw new Error('Idea not found');
+        }
+
+        const commentIdea = new Idea({
+            text: commentText,
+            author: userId,
+            parentId: ideaId,
+        })
+        const savedCommentIdea = await commentIdea.save();
+
+        orignalIdea.children.push(savedCommentIdea._id);
+        await orignalIdea.save();
+
+        revalidatePath(path);
+
+
+    } catch (error: any) {
+        throw new Error(`Error adding comment to Idea: ${error.message}`);
+    }
+}

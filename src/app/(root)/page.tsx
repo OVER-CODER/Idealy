@@ -11,7 +11,7 @@ export default async function Home() {
   return (
 
     <>
-    <div>
+    
 
     <div>
 
@@ -26,7 +26,7 @@ export default async function Home() {
         <>
         {result.posts.map((post) => (
           <IdeaCard
-          key={post._id}
+            key={post._id}
             id={post._id}
             currentUserId={user?.id || ""}
             parentId={post.parentId}
@@ -40,7 +40,7 @@ export default async function Home() {
         </>
       ) }
     </section>
-    </div>
+    
     </>
   )
 }

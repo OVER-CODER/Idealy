@@ -72,7 +72,7 @@ const IdeaCard = ({
                             <Image src="/assets/share.svg" alt="heart" width={24} height={24} className="cursor-pointer object-contain"  />
                         {isComment && comments.length > 0 && (
                             <Link href={`/idea/${id}`}>
-                                <p className="mt-1 text-subtle-medium text-gray-100">{comments.length} replies </p>
+                                <p className="mt-1 text-subtle-medium text-gray-100">{comments.length} repl{comments.length> 1 ? "ies":"y"} </p>
                             </Link>
                         )} 
                         </div> 
