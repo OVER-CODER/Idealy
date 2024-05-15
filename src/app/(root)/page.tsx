@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 import IdeaCard from "@/components/cards/IdeaCard";
 import { fetchPosts } from "@/lib/actions/idea.actions";
 import { ClerkProvider, UserButton } from "@clerk/nextjs";
@@ -13,6 +13,8 @@ export default async function Home() {
     <>
     <div>
 
+    <div>
+
         <UserButton />
       
     </div>
@@ -24,7 +26,7 @@ export default async function Home() {
         <>
         {result.posts.map((post) => (
           <IdeaCard
-            key={post._id}
+          key={post._id}
             id={post._id}
             currentUserId={user?.id || ""}
             parentId={post.parentId}
@@ -38,6 +40,7 @@ export default async function Home() {
         </>
       ) }
     </section>
+    </div>
     </>
   )
 }

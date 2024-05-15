@@ -37,9 +37,8 @@ export async function createIdea({text, author, communityId, path}: Params) {
 
 
 export async function fetchPosts(pageNumber = 1, pageSize = 20) {
+    connectToDB();
 try {
-        connectToDB();
-    
         const skipAmount = (pageNumber - 1) * pageSize;
     
         const postsQuery = Idea.find({parentId: {$in:[null, undefined]}})
@@ -71,7 +70,5 @@ try {
     console.error('Error fetching posts:', error);
         throw error;
     
-} finally{
-    mongoose.disconnect();
-}
+} 
 }
