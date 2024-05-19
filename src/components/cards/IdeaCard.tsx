@@ -64,7 +64,7 @@ const IdeaCard = ({
                         <p className="mt-2 text-small-regular text-light-2">
                             {content}
                         </p> 
-                        <div className="mt-5 flex gap-3">
+                        <div className={`${isComment && 'mb-10'}mt-5 flex gap-3`}>
                             <Image src="/assets/heart-gray.svg" alt="heart" width={24} height={24} className="cursor-pointer object-contain"  />
                             <Link href={`/idea/${id}`}>
                             <Image src="/assets/reply.svg" alt="heart" width={24} height={24} className="cursor-pointer object-contain"  />

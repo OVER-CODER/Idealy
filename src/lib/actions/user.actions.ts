@@ -1,6 +1,7 @@
 "use server"
 
 
+import Idea from "../models/idea.model";
 import User from "../models/user.model"
 import { connectToDB } from "../mongoose"
 import { revalidatePath } from "next/cache";
@@ -60,5 +61,32 @@ export async function fetchUser(userId: string) {
     // })
   } catch (error: any) {
    throw new Error(`Error fetching user: ${error.message}`); 
+  }
+}
+
+
+export async function fetchUserPosts(userId: string) {
+  try {
+    connectToDB();
+
+    const ideas = await User.findOne({ id: userId})
+      .populate({
+        path: 'ideas',
+        model: Idea,
+        populate: {
+          path: 'children',
+          model: Idea,
+          populate: {
+            path: 'author',
+            model: User,
+            select: 'name image id'
+  
+          }
+        }
+      })
+
+      return ideas;
+  } catch (error:any) {
+    throw new Error(`Error fetching user posts: ${error.message}`);
   }
 }
