@@ -1,4 +1,3 @@
-
 import PostIdea from '@/components/forms/PostIdea';
 import { fetchUser } from '@/lib/actions/user.actions';
 import {currentUser} from '@clerk/nextjs/server';
