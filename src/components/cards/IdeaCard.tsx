@@ -28,7 +28,7 @@ interface Props {
   isComment?: boolean;
 }
 
-function ThreadCard({
+function IdeaCard({
   id,
   currentUserId,
   parentId,
@@ -57,7 +57,7 @@ function ThreadCard({
               />
             </Link>
 
-            <div className='thread-card_bar' />
+            <div className='idea-card_bar' />
           </div>
 
           <div className='flex w-full flex-col'>
@@ -104,7 +104,7 @@ function ThreadCard({
               </div>
 
               {isComment && comments.length > 0 && (
-                <Link href={`/thread/${id}`}>
+                <Link href={`/idea/${id}`}>
                   <p className='mt-1 text-subtle-medium text-gray-1'>
                     {comments.length} repl{comments.length > 1 ? "ies" : "y"}
                   </p>
@@ -136,7 +136,7 @@ function ThreadCard({
             />
           ))}
 
-          <Link href={`/thread/${id}`}>
+          <Link href={`/idea/${id}`}>
             <p className='mt-1 text-subtle-medium text-gray-1'>
               {comments.length} repl{comments.length > 1 ? "ies" : "y"}
             </p>
@@ -167,4 +167,4 @@ function ThreadCard({
   );
 }
 
-export default ThreadCard;
+export default IdeaCard;

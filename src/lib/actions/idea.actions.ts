@@ -157,10 +157,8 @@ import Community from "../models/community.model";
 export async function fetchPosts(pageNumber = 1, pageSize = 20) {
   connectToDB();
 
-  // Calculate the number of posts to skip based on the page number and page size.
   const skipAmount = (pageNumber - 1) * pageSize;
-
-  // Create a query to fetch the posts that have no parent (top-level threads) (a thread that is not a comment/reply).
+  
   const postsQuery = Idea.find({ parentId: { $in: [null, undefined] } })
     .sort({ createdAt: "desc" })
     .skip(skipAmount)
@@ -181,8 +179,6 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
         select: "_id name parentId image", // Select only _id and username fields of the author
       },
     });
-
-  // Count the total number of top-level posts (threads) i.e., threads that are not comments.
   const totalPostsCount = await Idea.countDocuments({
     parentId: { $in: [null, undefined] },
   }); // Get the total count of posts
@@ -201,7 +197,7 @@ interface Params {
   path: string,
 }
 
-export async function createThread({ text, author, communityId, path }: Params
+export async function createIdea({ text, author, communityId, path }: Params
 ) {
   try {
     connectToDB();
@@ -211,7 +207,7 @@ export async function createThread({ text, author, communityId, path }: Params
       { _id: 1 }
     );
 
-    const createdThread = await Idea.create({
+    const createdIdea = await Idea.create({
       text,
       author,
       community: communityIdObject, // Assign communityId if provided, or leave it null for personal account
@@ -219,95 +215,90 @@ export async function createThread({ text, author, communityId, path }: Params
 
     // Update User model
     await User.findByIdAndUpdate(author, {
-      $push: { threads: createdThread._id },
+      $push: { ideas: createdIdea._id },
     });
 
     if (communityIdObject) {
       // Update Community model
       await Community.findByIdAndUpdate(communityIdObject, {
-        $push: { threads: createdThread._id },
+        $push: { ideas: createdIdea._id },
       });
     }
 
     revalidatePath(path);
   } catch (error: any) {
-    throw new Error(`Failed to create thread: ${error.message}`);
+    throw new Error(`Failed to create idea: ${error.message}`);
   }
 }
 
-async function fetchAllChildThreads(threadId: string): Promise<any[]> {
-  const childThreads = await Idea.find({ parentId: threadId });
+async function fetchAllChildIdeas(ideaId: string): Promise<any[]> {
+  const childIdeas = await Idea.find({ parentId: ideaId });
 
-  const descendantThreads = [];
-  for (const childThread of childThreads) {
-    const descendants = await fetchAllChildThreads(childThread._id);
-    descendantThreads.push(childThread, ...descendants);
+  const descendantIdeas = [];
+  for (const childIdea of childIdeas) {
+    const descendants = await fetchAllChildIdeas(childIdea._id);
+    descendantIdeas.push(childIdea, ...descendants);
   }
 
-  return descendantThreads;
+  return descendantIdeas;
 }
 
 export async function deleteIdea(id: string, path: string): Promise<void> {
   try {
     connectToDB();
 
-    // Find the thread to be deleted (the main thread)
-    const mainThread = await Idea.findById(id).populate("author community");
+    const mainIdea = await Idea.findById(id).populate("author community");
 
-    if (!mainThread) {
-      throw new Error("Thread not found");
+    if (!mainIdea) {
+      throw new Error("Idea not found");
     }
+    const descendantIdeas = await fetchAllChildIdeas(id);
 
-    // Fetch all child threads and their descendants recursively
-    const descendantThreads = await fetchAllChildThreads(id);
-
-    // Get all descendant thread IDs including the main thread ID and child thread IDs
-    const descendantThreadIds = [
+    
+    const descendantIdeaIds = [
       id,
-      ...descendantThreads.map((thread) => thread._id),
+      ...descendantIdeas.map((idea) => idea._id),
     ];
-
-    // Extract the authorIds and communityIds to update User and Community models respectively
     const uniqueAuthorIds = new Set(
       [
-        ...descendantThreads.map((thread) => thread.author?._id?.toString()), // Use optional chaining to handle possible undefined values
-        mainThread.author?._id?.toString(),
+        ...descendantIdeas.map((idea) => idea.author?._id?.toString()), // Use optional chaining to handle possible undefined values
+        mainIdea.author?._id?.toString(),
       ].filter((id) => id !== undefined)
     );
 
     const uniqueCommunityIds = new Set(
       [
-        ...descendantThreads.map((thread) => thread.community?._id?.toString()), // Use optional chaining to handle possible undefined values
-        mainThread.community?._id?.toString(),
+        ...descendantIdeas.map((idea) => idea.community?._id?.toString()), // Use optional chaining to handle possible undefined values
+        mainIdea.community?._id?.toString(),
       ].filter((id) => id !== undefined)
     );
 
-    // Recursively delete child threads and their descendants
-    await Idea.deleteMany({ _id: { $in: descendantThreadIds } });
+    
+    await Idea.deleteMany({ _id: { $in: descendantIdeaIds } });
 
     // Update User model
     await User.updateMany(
       { _id: { $in: Array.from(uniqueAuthorIds) } },
-      { $pull: { threads: { $in: descendantThreadIds } } }
+      { $pull: { ideas: { $in: descendantIdeaIds } } }
     );
 
     // Update Community model
     await Community.updateMany(
       { _id: { $in: Array.from(uniqueCommunityIds) } },
-      { $pull: { threads: { $in: descendantThreadIds } } }
+      { $pull: { ideas: { $in: descendantIdeaIds } } }
     );
 
     revalidatePath(path);
   } catch (error: any) {
-    throw new Error(`Failed to delete thread: ${error.message}`);
+    throw new Error(`Failed to delete idea: ${error.message}`);
   }
 }
 
-export async function fetchThreadById(threadId: string) {
+export async function fetchIdeaById(ideaId: string) {
   connectToDB();
 
   try {
-    const thread = await Idea.findById(threadId)
+    const idea = await Idea.findById(ideaId)
       .populate({
         path: "author",
         model: User,
@@ -328,7 +319,7 @@ export async function fetchThreadById(threadId: string) {
           },
           {
             path: "children", // Populate the children field within children
-            model: Idea, // The model of the nested children (assuming it's the same "Thread" model)
+            model: Idea,
             populate: {
               path: "author", // Populate the author field within nested children
               model: User,
@@ -339,15 +330,15 @@ export async function fetchThreadById(threadId: string) {
       })
       .exec();
 
-    return thread;
+    return idea;
   } catch (err) {
-    console.error("Error while fetching thread:", err);
-    throw new Error("Unable to fetch thread");
+    console.error("Error while fetching idea:", err);
+    throw new Error("Unable to fetch idea");
   }
 }
 
-export async function addCommentToThread(
-  threadId: string,
+export async function addCommentToIdea(
+  ideaId: string,
   commentText: string,
   userId: string,
   path: string
@@ -355,28 +346,26 @@ export async function addCommentToThread(
   connectToDB();
 
   try {
-    // Find the original thread by its ID
-    const originalThread = await Idea.findById(threadId);
+    
+    const originalIdea = await Idea.findById(ideaId);
 
-    if (!originalThread) {
-      throw new Error("Thread not found");
+    if (!originalIdea) {
+      throw new Error("Idea not found");
     }
-
-    // Create the new comment thread
-    const commentThread = new Idea({
+    const commentIdea = new Idea({
       text: commentText,
       author: userId,
-      parentId: threadId, // Set the parentId to the original thread's ID
+      parentId: ideaId,
     });
 
-    // Save the comment thread to the database
-    const savedCommentThread = await commentThread.save();
+    
+    const savedCommentIdea = await commentIdea.save();
 
-    // Add the comment thread's ID to the original thread's children array
-    originalThread.children.push(savedCommentThread._id);
+    
+    originalIdea.children.push(savedCommentIdea._id);
 
-    // Save the updated original thread to the database
-    await originalThread.save();
+    
+    await originalIdea.save();
 
     revalidatePath(path);
   } catch (err) {

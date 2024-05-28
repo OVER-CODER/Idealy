@@ -148,15 +148,15 @@ export async function getActivity(userId: string) {
 
     const userIdeas = await Idea.find({ author: userId });
 
-    // Collect all the child thread ids (replies) from the 'children' field of each user thread
+    
     const childIdeaIds = userIdeas.reduce((acc, userIdea) => {
       return acc.concat(userIdea.children);
     }, []);
 
-    // Find and return the child threads (replies) excluding the ones created by the same user
+    
     const replies = await Idea.find({
       _id: { $in: childIdeaIds },
-      author: { $ne: userId }, // Exclude threads authored by the same user
+      author: { $ne: userId },
     }).populate({
       path: "author",
       model: User,
