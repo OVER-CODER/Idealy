@@ -43,7 +43,7 @@ async function Page({ params }: { params: { id: string } }) {
                 <p className='max-sm:hidden'>{tab.label}</p>
 
                 {tab.label === "Ideas" && (
-                  <p className='ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
+                  <p className='ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-dark-2'>
                     {communityDetails.ideas.length}
                   </p>
                 )}
@@ -51,7 +51,7 @@ async function Page({ params }: { params: { id: string } }) {
             ))}
           </TabsList>
 
-          <TabsContent value='ideas' className='w-full text-light-1'>
+          <TabsContent value='ideas' className='w-full text-dark-1'>
             {/* @ts-ignore */}
             <IdeasTab
               currentUserId={user.id}
@@ -60,7 +60,7 @@ async function Page({ params }: { params: { id: string } }) {
             />
           </TabsContent>
 
-          <TabsContent value='members' className='mt-9 w-full text-light-1'>
+          <TabsContent value='members' className='mt-9 w-full text-dark-1'>
             <section className='mt-9 flex flex-col gap-10'>
               {communityDetails.members.map((member: any) => (
                 <UserCard
@@ -75,7 +75,7 @@ async function Page({ params }: { params: { id: string } }) {
             </section>
           </TabsContent>
 
-          <TabsContent value='requests' className='w-full text-light-1'>
+          <TabsContent value='requests' className='w-full text-dark-1'>
             {/* @ts-ignore */}
             <IdeasTab
               currentUserId={user.id}

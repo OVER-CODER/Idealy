@@ -71,10 +71,10 @@ function PostIdea({ userId }: {userId: string}) {
                     name="idea"
                     render={({ field }) => (
                         <FormItem className='flex flex-col gap-3 w-full'>
-                        <FormLabel className='text-base-semibold text-light-2'>
+                        <FormLabel className='text-base-semibold text-dark-2'>
                             Content
                         </FormLabel>
-                        <FormControl className='no-focus border border-dark-4 bg-dark-3 text-light-1'> 
+                        <FormControl className='no-focus border border-light-2 bg-light-1 text-dark-1'> 
                             <Textarea
                                 rows={15}
                                {...field}
