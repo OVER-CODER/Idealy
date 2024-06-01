@@ -23,9 +23,9 @@ function Pagination({ pageNumber, isNext, path }: Props) {
     }
 
     if (nextPageNumber > 1) {
-      router.push(`/${path}?page=${nextPageNumber}`);
+      router.push(`/dashboard/${path}?page=${nextPageNumber}`);
     } else {
-      router.push(`/${path}`);
+      router.push(`/dashboard/${path}`);
     }
   };
 

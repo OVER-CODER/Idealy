@@ -6,27 +6,27 @@ export const sidebarLinks = [
     },
     {
       imgURL: "/assets/search.svg",
-      route: "/search",
+      route: "/dashboard/search",
       label: "Search",
     },
     {
       imgURL: "/assets/heart.svg",
-      route: "/activity",
+      route: "/dashboard/activity",
       label: "Activity",
     },
     {
       imgURL: "/assets/create.svg",
-      route: "/create-idea",
+      route: "/dashboard/create-idea",
       label: "Create Idea",
     },
     {
       imgURL: "/assets/community.svg",
-      route: "/communities",
+      route: "/dashboard/communities",
       label: "Communities",
     },
     {
       imgURL: "/assets/user.svg",
-      route: "/profile",
+      route: "/dashboard/profile",
       label: "Profile",
     },
   ];

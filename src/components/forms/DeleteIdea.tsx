@@ -35,7 +35,7 @@ function DeleteIdea({
       onClick={async () => {
         await deleteIdea(JSON.parse(ideaId), pathname);
         if (!parentId || !isComment) {
-          router.push("/");
+          router.push("/dashboard");
         }
       }}
     />

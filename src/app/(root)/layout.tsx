@@ -29,7 +29,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <main className='flex'>
             <section className='main-container'>
-              <div className='w-full max-w-4xl'>{children}</div>
+              <div className='w-full max-w-4xl bg-background'>{children}</div>
             </section>
           </main>
         </body>

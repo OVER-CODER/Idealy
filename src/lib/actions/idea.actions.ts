@@ -197,8 +197,7 @@ interface Params {
   path: string,
 }
 
-export async function createIdea({ text, author, communityId, path }: Params
-) {
+export async function createIdea({ text, author, communityId, path }: Params) {
   try {
     connectToDB();
 

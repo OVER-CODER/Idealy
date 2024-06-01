@@ -40,9 +40,9 @@ function UserCard({ id, name, username, imgUrl, personType }: Props) {
         className='user-card_btn'
         onClick={() => {
           if (isCommunity) {
-            router.push(`/communities/${id}`);
+            router.push(`/dashboard/communities/${id}`);
           } else {
-            router.push(`/profile/${id}`);
+            router.push(`/dashboard/profile/${id}`);
           }
         }}
       >

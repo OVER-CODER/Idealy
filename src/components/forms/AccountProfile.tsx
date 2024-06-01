@@ -75,10 +75,10 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
       image: values.profile_photo,
     });
 
-    if (pathname === "/profile/edit") {
+    if (pathname === "/dashboard/profile/edit") {
       router.back();
     } else {
-      router.push("/");
+      router.push("/dashboard");
     }
   };
 

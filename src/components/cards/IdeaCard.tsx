@@ -48,7 +48,7 @@ function IdeaCard({
       <div className='flex items-start justify-between'>
         <div className='flex w-full flex-1 flex-row gap-4'>
           <div className='flex flex-col items-center'>
-            <Link href={`/profile/${author.id}`} className='relative h-11 w-11'>
+            <Link href={`/dashboard/profile/${author.id}`} className='relative h-11 w-11'>
               <Image
                 src={author.image}
                 alt='user_community_image'
@@ -61,7 +61,7 @@ function IdeaCard({
           </div>
 
           <div className='flex w-full flex-col'>
-            <Link href={`/profile/${author.id}`} className='w-fit'>
+            <Link href={`/dashboard/profile/${author.id}`} className='w-fit'>
               <h4 className='cursor-pointer text-base-semibold text-dark-1'>
                 {author.name}
               </h4>
@@ -78,7 +78,7 @@ function IdeaCard({
                   height={24}
                   className='cursor-pointer object-contain'
                 />
-                <Link href={`/idea/${id}`}>
+                <Link href={`/dashboard/idea/${id}`}>
                   <Image
                     src='/assets/reply.svg'
                     alt='heart'
@@ -104,7 +104,7 @@ function IdeaCard({
               </div>
 
               {isComment && comments.length > 0 && (
-                <Link href={`/idea/${id}`}>
+                <Link href={`/dashboard/idea/${id}`}>
                   <p className='mt-1 text-subtle-medium text-gray-1'>
                     {comments.length} repl{comments.length > 1 ? "ies" : "y"}
                   </p>
@@ -136,7 +136,7 @@ function IdeaCard({
             />
           ))}
 
-          <Link href={`/idea/${id}`}>
+          <Link href={`/dashboard/idea/${id}`}>
             <p className='mt-1 text-subtle-medium text-gray-1'>
               {comments.length} repl{comments.length > 1 ? "ies" : "y"}
             </p>
@@ -146,7 +146,7 @@ function IdeaCard({
 
       {!isComment && community && (
         <Link
-          href={`/communities/${community.id}`}
+          href={`/dashboard/communities/${community.id}`}
           className='mt-5 flex items-center'
         >
           <p className='text-subtle-medium text-gray-1'>
