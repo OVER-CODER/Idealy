@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -15,10 +16,6 @@ const LeftSidebar = () => {
 
   return (
     <section className='custom-scrollbar leftsidebar'>
-      <Link href='/' className='flex items-center gap-4'>
-        <Image src='/logo.svg' alt='logo' width={28} height={28} />
-        <p className='text-heading3-bold text-dark-1 max-xs:hidden'>Idealy</p>
-      </Link>
       <div className='flex w-full flex-1 flex-col gap-6 px-6'>
         {sidebarLinks.map((link) => {
           const isActive =
@@ -48,9 +45,9 @@ const LeftSidebar = () => {
 
       <div className='mt-10 px-6'>
         <SignedIn>
-          <SignOutButton>
-            <div className='flex cursor-pointer gap-4 p-4'>
-              <Image
+        <SignOutButton>
+             <div className='flex cursor-pointer gap-4 p-4'>
+               <Image
                 src='/assets/logout.svg'
                 alt='logout'
                 width={24}

@@ -102,7 +102,7 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: #09090a;
+    background: #f5f5dc;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
