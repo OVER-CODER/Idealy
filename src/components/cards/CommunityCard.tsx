@@ -26,7 +26,7 @@ function CommunityCard({ id, name, username, imgUrl, bio, members }: Props) {
             className='rounded-full object-cover'
           />
         </Link>
-
+      
         <div>
           <Link href={`/dashboard/communities/${id}`}>
             <h4 className='text-base-semibold text-dark-1'>{name}</h4>

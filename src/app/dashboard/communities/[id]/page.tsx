@@ -76,7 +76,7 @@ async function Page({ params }: { params: { id: string } }) {
           </TabsContent>
 
           <TabsContent value='requests' className='w-full text-dark-1'>
-            {/* @ts-ignore */}
+            @ts-ignore
             <IdeasTab
               currentUserId={user.id}
               accountId={communityDetails._id}

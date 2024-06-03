@@ -13,7 +13,7 @@ interface Props {
 const IdeasTab = async ({currentUserId, accountId, accountType}:Props) => {
     
     let result = await fetchUserPosts(accountId);
-    if(!result) redirect('/');
+    if(!result) redirect('/dashboard');
     return(
         <section className="mt-9 flex flex-col gap-10">
             {result.ideas.map((idea:any)=>(
