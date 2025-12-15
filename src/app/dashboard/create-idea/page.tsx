@@ -14,7 +14,7 @@ async function page () {
 
     return(
         <>
-        <h1 className="head-text">Create Idea</h1>
+        <h1 className="head-text text-dark-1">Create Idea</h1>
         <PostIdea userId={userInfo._id} />
         </>
     )
