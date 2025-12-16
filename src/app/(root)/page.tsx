@@ -43,11 +43,12 @@ const Page = () => {
                 isSignedIn ? (
                   <Button 
                     size="sm" 
-                    className="bg-black hover:bg-black/80 text-white border-2 border-black px-6 py-2 text-base"
+                    className="bg-black hover:bg-black/80 text-white border-2 border-black px-4 py-2 text-sm lg:text-base"
                     onClick={() => router.push('/dashboard')}
                   >
                     <span className="flex items-center gap-2">
-                      Go to Dashboard
+                      <span className="hidden lg:inline">Go to Dashboard</span>
+                      <span className="lg:hidden">Dashboard</span>
                       <ArrowRight className="w-4 h-4" />
                     </span>
                   </Button>
@@ -72,8 +73,8 @@ const Page = () => {
         </div>
       </nav>
       {/* Hero Section */}
-      <section className="min-h-screen px-4 py-32">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+      <section className="min-h-screen px-4 py-24 md:py-32">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Side - Text Content */}
           <div className="space-y-8 text-left">
             <div className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-black/5 border border-black/10">
@@ -81,37 +82,37 @@ const Page = () => {
               <span className="text-lg font-medium text-black">Where Great Ideas Come to Life</span>
             </div>
             
-            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-black leading-[1.1] tracking-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-black leading-[1.1] tracking-tight">
               Let Your Ideas
               <span className="block">
                 Shine with Idealy
               </span>
             </h1>
             
-            <p className="text-2xl md:text-3xl lg:text-4xl text-black/70 font-light leading-relaxed max-w-2xl">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-black/70 font-light leading-relaxed max-w-2xl">
               A collaborative platform where innovators share ideas, connect with like-minded individuals, and turn visions into reality.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-6 pt-6">
+            <div className="flex flex-col sm:flex-row gap-4 pt-6">
               {isLoaded && (
                 isSignedIn ? (
                   <Button 
                     size="lg" 
-                    className="bg-black hover:bg-black/80 text-white border-2 border-black px-12 py-7 text-xl font-medium rounded-xl"
+                    className="bg-black hover:bg-black/80 text-white border-2 border-black px-6 py-4 sm:px-10 sm:py-6 text-base sm:text-xl font-medium rounded-xl w-full sm:w-auto"
                     onClick={() => router.push('/dashboard')}
                   >
                     <span className="flex items-center gap-2">
                       Go to Your Dashboard
-                      <ArrowRight className="w-5 h-5" />
+                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                     </span>
                   </Button>
                 ) : (
                   <>
-                    <Button size="lg" className="bg-black hover:bg-black/80 text-white border-2 border-black px-12 py-7 text-xl font-medium rounded-xl">
+                    <Button size="lg" className="bg-black hover:bg-black/80 text-white border-2 border-black px-6 py-4 sm:px-10 sm:py-6 text-base sm:text-xl font-medium rounded-xl w-full sm:w-auto">
                       <SignUpButton mode="modal" />
                     </Button>
                     
-                    <Button size="lg" className="bg-transparent hover:bg-black/5 text-black border-2 border-black px-12 py-7 text-xl font-medium rounded-xl">
+                    <Button size="lg" className="bg-transparent hover:bg-black/5 text-black border-2 border-black px-6 py-4 sm:px-10 sm:py-6 text-base sm:text-xl font-medium rounded-xl w-full sm:w-auto">
                       <SignInButton mode="modal" />
                     </Button>
                   </>
@@ -121,8 +122,8 @@ const Page = () => {
           </div>
           
           {/* Right Side - Image */}
-          <div className="relative w-full h-[300px] md:h-[700px] lg:h-[700px]">
-            <div className="relative w-[600px] h-[600px] bg-white border-2 border-black/10 rounded-2xl overflow-hidden shadow-2xl">
+          <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px]">
+            <div className="relative w-full h-full bg-white border-2 border-black/10 rounded-2xl overflow-hidden shadow-2xl">
               <Image 
                 src="/assets/image1.png" 
                 alt="Idealy Platform" 
