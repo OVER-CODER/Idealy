@@ -1,11 +1,16 @@
+'use client'
+
 import React from 'react'
-import { SignInButton, SignUpButton } from '@clerk/nextjs'
+import { SignInButton, SignUpButton, useUser } from '@clerk/nextjs'
 import { Button } from '@/components/ui/button'
-import { Lightbulb, Users, MessageSquare, TrendingUp, Sparkles, Rocket, Menu } from 'lucide-react'
+import { Lightbulb, Users, MessageSquare, TrendingUp, Sparkles, Rocket, Menu, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 const Page = () => {
+  const { isSignedIn, isLoaded } = useUser()
+  const router = useRouter()
   return (
     <div className="w-full">
       {/* Navigation Bar */}
@@ -34,12 +39,29 @@ const Page = () => {
             
             {/* Auth Buttons */}
             <div className="hidden md:flex items-center gap-3">
-              <Button size="sm" className="bg-transparent hover:bg-black/5 text-black border border-black/20 px-6 py-2 text-base">
-                <SignInButton mode="modal" />
-              </Button>
-              <Button size="sm" className="bg-black hover:bg-black/80 text-white border-2 border-black px-6 py-2 text-base">
-                <SignUpButton mode="modal" />
-              </Button>
+              {isLoaded && (
+                isSignedIn ? (
+                  <Button 
+                    size="sm" 
+                    className="bg-black hover:bg-black/80 text-white border-2 border-black px-6 py-2 text-base"
+                    onClick={() => router.push('/dashboard')}
+                  >
+                    <span className="flex items-center gap-2">
+                      Go to Dashboard
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </Button>
+                ) : (
+                  <>
+                    <Button size="sm" className="bg-transparent hover:bg-black/5 text-black border border-black/20 px-6 py-2 text-base">
+                      <SignInButton mode="modal" />
+                    </Button>
+                    <Button size="sm" className="bg-black hover:bg-black/80 text-white border-2 border-black px-6 py-2 text-base">
+                      <SignUpButton mode="modal" />
+                    </Button>
+                  </>
+                )
+              )}
             </div>
             
             {/* Mobile Menu Button */}
@@ -71,13 +93,30 @@ const Page = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 pt-6">
-              <Button size="lg" className="bg-black hover:bg-black/80 text-white border-2 border-black px-12 py-7 text-xl font-medium rounded-xl">
-                <SignUpButton mode="modal" />
-              </Button>
-              
-              <Button size="lg" className="bg-transparent hover:bg-black/5 text-black border-2 border-black px-12 py-7 text-xl font-medium rounded-xl">
-                <SignInButton mode="modal" />
-              </Button>
+              {isLoaded && (
+                isSignedIn ? (
+                  <Button 
+                    size="lg" 
+                    className="bg-black hover:bg-black/80 text-white border-2 border-black px-12 py-7 text-xl font-medium rounded-xl"
+                    onClick={() => router.push('/dashboard')}
+                  >
+                    <span className="flex items-center gap-2">
+                      Go to Your Dashboard
+                      <ArrowRight className="w-5 h-5" />
+                    </span>
+                  </Button>
+                ) : (
+                  <>
+                    <Button size="lg" className="bg-black hover:bg-black/80 text-white border-2 border-black px-12 py-7 text-xl font-medium rounded-xl">
+                      <SignUpButton mode="modal" />
+                    </Button>
+                    
+                    <Button size="lg" className="bg-transparent hover:bg-black/5 text-black border-2 border-black px-12 py-7 text-xl font-medium rounded-xl">
+                      <SignInButton mode="modal" />
+                    </Button>
+                  </>
+                )
+              )}
             </div>
           </div>
           
