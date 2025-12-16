@@ -184,7 +184,7 @@ const Page = () => {
               </div>
               <h3 className="text-3xl font-bold text-black mb-4">Track Progress</h3>
               <p className="text-lg text-black/70 leading-relaxed">
-                Monitor your ideas' engagement and growth. See which concepts resonate most with the community.
+                Monitor your ideas engagement and growth. See which concepts resonate most with the community.
               </p>
             </div>
             
